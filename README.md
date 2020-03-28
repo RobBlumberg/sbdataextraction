@@ -12,8 +12,8 @@ This is a package to get statsbomb public data into python. Statsbomb themselves
 
 - pandas 1.0.3
 - requests 2.23.0
-- numpy = 1.18.2
-- matplotlib = 3.2.1
+- numpy 1.18.2
+- matplotlib 3.2.1
 
 ### Installation:
 
@@ -34,7 +34,7 @@ Here is a typical workflow I use in my projects. First, I fetch all the data for
 ```python
   from sbdataextraction import sbdataextraction as sbd
   # 43 is the competition id for the 2018 FIFA men's world cup
-  wc_data = abd.fetch_seasons_for_league(43) 
+  wc_data = sbd.fetch_seasons_for_league(43) 
   >>> {'2018': {7562: <__main__.Game at 0x1302ddd10>,
                 7549: <__main__.Game at 0x13125cad0>,
                 7565: <__main__.Game at 0x132114210>,
