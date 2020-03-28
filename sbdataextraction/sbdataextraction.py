@@ -7,8 +7,8 @@ import numpy as np
 
 class Game:
     """
-    Game object json_file attribute which is the event data for
-    a game as a JSON file (from Statsbomb's public data)
+    Game object with json_file attribute, which is the event data for
+    a game as a JSON file (from Statsbomb public data) pre-loaded into python.
     """
 
     def __init__(self, json_file):
@@ -127,8 +127,7 @@ class Game:
         Checks whether a player in a statsbomb freeze frame is between the shot
         location, and the two lines connecting the shot location to the posts.
         See here for coordinate specifications:
-        https://github.com/statsbomb/open-data/blob/master/doc/
-        StatsBomb%20Open%20Data%20Specification%20v1.1.pdf
+        https://github.com/statsbomb/open-data/blob/master/doc/StatsBomb%20Open%20Data%20Specification%20v1.1.pdf
 
         Arguments:
         ----------
@@ -236,12 +235,10 @@ def fetch_matches_for_season(competition_id, season_id, verbose=True):
     ---------
     competition_id : int
         - competition id as specified by Statsbomb
-        See here: https://github.com/statsbomb/open-data/blob/master/
-        data/competitions.json
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json # noqa
     season_id : int
         - season id as specified by Statsbomb
-        See here: https://github.com/statsbomb/open-data/blob/master/
-        data/competitions.json
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json # noqa
 
     Returns
     -------
@@ -253,18 +250,30 @@ def fetch_matches_for_season(competition_id, season_id, verbose=True):
     --------
     fetch_matches_for_season(11, 21)
     """
-    base = "https://raw.githubusercontent.com/statsbomb/" + \
-           "open-data/master/data/matches"
+    # Get webpage html for competitions.json
+    comp_url = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json" # noqa
+    req = requests.get(comp_url).text
+    # Convert webpage to json format
+    competitions_statsbomb = json.loads(req)
+    comp_id_list = np.unique([x['competition_id'] for x in competitions_statsbomb]) # noqa
+    season_id_list = np.unique([x['season_id'] for x in competitions_statsbomb]) # noqa
+    assert competition_id in comp_id_list, \
+        f"""competition id must be one of {comp_id_list}.
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json" """ # noqa
+    assert season_id in season_id_list, \
+        f"""season id must be one of {season_id_list}.
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json" """ # noqa
+
+    base = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches" # noqa
     req = requests.get(base + f"/{competition_id}" + f"/{season_id}.json").text
     season_json = json.loads(req)
 
     game_nums = [game['match_id'] for game in season_json]
 
-    base_url_string = "https://raw.githubusercontent.com/statsbomb/" + \
-                      "open-data/master/data/events/"
+    base_url_string = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/" # noqa
     game_num_dict = {}
     if verbose:
-        print(f"\nFetching matches for season_id {season_id}" +
+        print(f"\nFetching matches for season_id {season_id} " +
               f"of competition_id {competition_id}...")
     for i, game_num in enumerate(game_nums):
         game_num_dict[game_num] = Game(requests.get(base_url_string +
@@ -289,8 +298,7 @@ def fetch_seasons_for_league(competition_id, verbose=True):
     ---------
     competition_id : int
         - competition id as specified by Statsbomb
-        See here: https://github.com/statsbomb/
-        open-data/blob/master/data/competitions.json
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json # noqa
 
     Returns
     -------
@@ -305,11 +313,15 @@ def fetch_seasons_for_league(competition_id, verbose=True):
 
     """
     # Get webpage html for competitions.json
-    comp_url = "https://raw.githubusercontent.com/statsbomb/" + \
-               "open-data/master/data/competitions.json"
+    comp_url = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json" # noqa
     req = requests.get(comp_url).text
     # Convert webpage to json format
     competitions_statsbomb = json.loads(req)
+
+    comp_id_list = np.unique([x['competition_id'] for x in competitions_statsbomb]) # noqa
+    assert competition_id in comp_id_list, \
+        f"""competition id must be one of {comp_id_list}.
+        See here: https://github.com/statsbomb/open-data/blob/master/data/competitions.json" """ # noqa
 
     all_seasons_id = {}
     for comps in competitions_statsbomb:
@@ -473,6 +485,8 @@ def draw_pitch(axis, rotate=False):
         axis.plot(x5, x6, color='grey', linewidth=line_width,
                   alpha=alpha)
 
+    return axis
+
 
 def plot_shot_freeze_frame(game, shot_id, axis):
     """
@@ -527,3 +541,5 @@ def plot_shot_freeze_frame(game, shot_id, axis):
     axis.scatter(gk_x, gk_y, s=100, color='blue')
     axis.plot([x_shot, 120], [y_shot, 36], color='red', linestyle='--')
     axis.plot([x_shot, 120], [y_shot, 44], color='red', linestyle='--')
+
+    return axis
