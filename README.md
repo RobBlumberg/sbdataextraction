@@ -32,8 +32,9 @@ pip install -i https://test.pypi.org/simple/ sbdataextraction
 Here is a typical workflow I use in my projects. First, I fetch all the data for a league using the `fetch_seasons_for_league` function.
 
 ```python
+  from sbdataextraction import sbdataextraction as sbd
   # 43 is the competition id for the 2018 FIFA men's world cup
-  wc_data = fetch_seasons_for_league(43) 
+  wc_data = abd.fetch_seasons_for_league(43) 
   >>> {'2018': {7562: <__main__.Game at 0x1302ddd10>,
                 7549: <__main__.Game at 0x13125cad0>,
                 7565: <__main__.Game at 0x132114210>,
@@ -45,7 +46,7 @@ This return a data structure mapping seasons to inner dictionaries. The inner di
 
 A `Game` object has several attributes and methods. The first thing we can do is call the `get_shots_for_game` method.
 ```python
-  game = season_43["2018"][8656]
+  game = wc_data["2018"][8656]
   game.get_shots_for_game()
   >>>
 ```
@@ -68,7 +69,7 @@ We can also call the `Game` object's `get_events_for_game` method. This will ret
 Sometimes, I only want to get the data for a specific season, not all the data for a league. In the world cup case above, there was only 1 season. But if I wanted a specific season of Messi's la liga data, I could use the `fetch_matches_for_season` function.
 ```python
   # 11 is the competition id for la liga Messi data, and 37 is the season id for 2004/05
-  season_11_37 = fetch_matches_for_season(11, 37) 
+  season_11_37 = sbd.fetch_matches_for_season(11, 37) 
   >>> {69153: <__main__.Game at 0x12c24d2d0>,
        68313: <__main__.Game at 0x12c281c90>,
        68314: <__main__.Game at 0x12cd5d890>,
@@ -79,7 +80,7 @@ Sometimes, I only want to get the data for a specific season, not all the data f
 
 Earlier, I showed it was possible to get the shots for a game using the Game object's `get_shots_for_game` method. There is another function I often use, called `get_shots_for_season` which gets the shots for all game in a season dictionary. The output of `fetch_matches_for_season` just needs to be passed in, as below.
 ```python
-  get_shots_for_season(season_11_37)
+  sbd.get_shots_for_season(season_11_37)
   >>> 
 ```
 |shot id	|team_id	|team_name	|player_id	|player_name	|play pattern	|x start location	|y start location	|duration	|outcome	|technique	|first time	|x gk position|	y gk position	|type of shot	|num opponents within 5 yards	|num opponents between shot and goal	|statsbomb xg	|game_id|
