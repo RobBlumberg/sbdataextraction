@@ -84,7 +84,7 @@ class Game:
                                 num_opponents_5_yards += 1
 
                         # count how many opponents were between shot and goal
-                        if (note player['teammate']) and \
+                        if (not player['teammate']) and \
                            (player['position']['name'] != 'Goalkeeper'):
                             if self.check_player_btwn_shot_and_goal(x_start,
                                                                     y_start,
@@ -94,7 +94,7 @@ class Game:
 
                         # get position of opponent's goalkeeper
                         if (player['position']['name'] == 'Goalkeeper') and \
-                           (note player['teammate']):
+                           (not player['teammate']):
                             x_gk_pos = player['location'][0]
                             y_gk_pos = player['location'][1]
 
