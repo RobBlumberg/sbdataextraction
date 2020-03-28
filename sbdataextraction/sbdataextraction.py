@@ -77,8 +77,8 @@ class Game:
 
                         # count how many opponents were within 5yards of player
                         # when shot was taken
-                        x_dist = (x_start_location - x_player)**2
-                        y_dist = (y_start_location - y_player)**2
+                        x_dist = (x_start - x_player)**2
+                        y_dist = (y_start - y_player)**2
                         if (x_dist+y_dist) <= 25 and (not player['teammate']):
                             if (player['position']['name'] != 'Goalkeeper'):
                                 num_opponents_5_yards += 1
