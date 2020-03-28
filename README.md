@@ -6,7 +6,7 @@
 
 ### Package description
 
-This is a package to get statsbomb public data into python. Statsbomb themselves have their own pacakge called [statsbombpy](https://github.com/statsbomb/statsbombpy), which provides similar functionality. I made this package mostly for my own personal use, since I found I was often repeating the same data extraction steps across several projects. I will continue to add functionality to this package as I work on new projects.
+This is a package to get statsbomb public data into python. Statsbomb themselves have their own pacakge called [statsbombpy](https://github.com/statsbomb/statsbombpy), which provides similar functionality. I made this package mostly for my own personal use, since I found I was often repeating the same data extraction steps across several projects (I also wrote a lot of these functions before the release of statsbombpy). I will continue to add functionality to this package as I work on new projects.
 
 ### Dependencies
 
@@ -22,7 +22,7 @@ The package has been deployed to test pypi. If you do not have the dependencies 
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple sbdataextraction
 ```
 
-You may also install the package using the command below if the dependecicies are already satisfied on your local machine.
+You may also install the package using the command below if the dependencies are already satisfied on your local machine.
 ```
 pip install -i https://test.pypi.org/simple/ sbdataextraction
 ```
