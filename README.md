@@ -15,7 +15,7 @@ This is a package to get statsbomb public data into python. Statsbomb themselves
 - numpy 1.18.2
 - matplotlib 3.2.1
 
-### Installation:
+### Installation
 
 The package has been deployed to test pypi. If you do not have the dependencies listed above installed, please use the command below.
 ```
@@ -89,6 +89,16 @@ Earlier, I showed it was possible to get the shots for a game using the Game obj
 |be5b97e3-fca8-4fb9-99f8-af2e878c8b3b	|217|	Barcelona	|19298	|Samuel Eto"o Fils	|From Counter	|114.4|	59.1|	0.573428	|Saved	|Normal	|FALSE	|119.8	|43.2	|Open Play	|2	|0	|0.019256786	|69153|
 
 A similar thing can be done with the `get_shots_for_league` function to get all shots for a league by passing in the league's dictionary of dictionaries, like `wc_data` from the earlier example.
+
+There are also functions to visualize a shot and the opponents around the shot when it was taken. This is done using the `draw_pitch` and `plot_shot_freeze_frame` functions. We just need to pass in a `Game` object whose `get_shots_for_game` method has been called, and a shot id for that game.
+```python
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1, 1, figsize=(15, 10))
+sbd.draw_pitch(ax, rotate=True)
+sbd.plot_shot_freeze_frame(game,"6b09b997-06b0-43e7-a47f-13fddf502adc", axis=ax)
+plt.show()
+```
+![](img/shot_plot_example.png)
 
 ### Documentation
 The official documentation is hosted on Read the Docs: <https://sbdataextraction.readthedocs.io/en/latest/>
