@@ -572,30 +572,20 @@ def plot_event(game, event_id, axis):
                                             "in this game's event data frame"
 
     event_type = game.event_df.loc[event_id]["event name"]
+    x1 = game.event_df.loc[event_id]["x start location"]
+    x2 = game.event_df.loc[event_id]["x end location"]
+    y1 = game.event_df.loc[event_id]["y start location"]
+    y2 = game.event_df.loc[event_id]["y end location"]
     if event_type == "pass":
-        x1 = game.event_df.loc[event_id]["x start location"]
-        x2 = game.event_df.loc[event_id]["x end location"]
-        y1 = game.event_df.loc[event_id]["x start location"]
-        y2 = game.event_df.loc[event_id]["x end location"]
-        axis.arrow(x1,
-                   y1,
-                   dx=x2-x1,
-                   dy=y2-y1,
-                   head_width=2, head_length=2)
+        axis.arrow(x1, y1, dx=x2-x1, dy=y2-y1, head_width=2, head_length=2)
     elif event_type == "carry":
-        axis.plot([x1, x2],
-                  [y1, y2],
-                  linestyle="--", color="black")
+        axis.plot([x1, x2], [y1, y2], linestyle="--", color="black")
     elif event_type == "shot":
         if "shot_df" in dir(game):
             plot_shot_freeze_frame(game, event_id, axis)
         else:
-            axis.scatter(game.event_df.loc[event_id]["x start location"],
-                         game.event_df.loc[event_id]["y start location"],
-                         marker="X", s=200)
+            axis.scatter(x1, y1, marker="X", s=200)
     elif event_type == "ball receipt*":
-        axis.scatter(game.event_df.loc[event_id]["x start location"],
-                     game.event_df.loc[event_id]["y start location"],
-                     marker="*", s=200)
+        axis.scatter(x1, y1, marker="*", s=200)
 
     return axis
