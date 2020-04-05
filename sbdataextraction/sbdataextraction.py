@@ -567,7 +567,7 @@ def plot_event(game, event_id, axis):
         - axis object on which plot was produced
     """
     assert "event_df" in dir(game), "Game object must have an event data" + \
-                                   "frame. Call game.get_events_for_game()"
+                                    "frame. Call game.get_events_for_game()"
     assert event_id in game.events_df.index, "Can't find specified event" + \
                                              "in this game's event data frame"
 
