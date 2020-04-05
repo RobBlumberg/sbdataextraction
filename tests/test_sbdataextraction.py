@@ -1,6 +1,6 @@
 from sbdataextraction.sbdataextraction import fetch_matches_for_season, fetch_seasons_for_league # noqa
 from sbdataextraction.sbdataextraction import get_shots_for_season, get_shots_for_league # noqa
-from sbdataextraction.sbdataextraction import draw_pitch, plot_shot_freeze_frame # noqa
+from sbdataextraction.sbdataextraction import draw_pitch, plot_shot_freeze_frame, plot_event # noqa
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -100,3 +100,15 @@ def test_get_shots_for_league():
     assert shots_df.shape[1] == 19, \
         """Shots data frame returned by get_shots_for_league
         should have 19 columns"""
+
+
+def test_plot_event():
+    # check that plot_event returns correct object
+    season_11_37[69153].get_shots_for_game()
+    fig, ax = plt.subplots(1, 1)
+    eplot = plot_event(season_11_37[69153],
+                       "7799b3d3-eb47-4d1f-9a38-2a9891bd991e",
+                       ax)
+    type_ = str(type(eplot))
+    assert type_ == "<class 'matplotlib.axes._subplots.AxesSubplot'>", \
+        """draw_pitch should return matplotlib axis object"""
