@@ -220,7 +220,7 @@ class Game:
         events_df = pd.DataFrame(features,
                                  columns=feature_list).set_index("event id")
 
-        self.events_df = events_df
+        self.event_df = events_df
 
         return events_df
 
@@ -273,7 +273,7 @@ def fetch_matches_for_season(competition_id, season_id, verbose=True):
     base_url_string = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/" # noqa
     game_num_dict = {}
     if verbose:
-        print(f"\nFetching matches for season_id {season_id} " +
+        print(f"Fetching matches for season_id {season_id} " +
               f"of competition_id {competition_id}...")
     for i, game_num in enumerate(game_nums):
         game_num_dict[game_num] = Game(requests.get(base_url_string +
@@ -566,7 +566,7 @@ def plot_event(game, event_id, axis):
     matplotlib.axes._subplots.AxesSubplot
         - axis object on which plot was produced
     """
-    assert "shot_df" in dir(game), "Game object must have an event data" + \
+    assert "event_df" in dir(game), "Game object must have an event data" + \
                                    "frame. Call game.get_events_for_game()"
     assert event_id in game.events_df.index, "Can't find specified event" + \
                                              "in this game's event data frame"
