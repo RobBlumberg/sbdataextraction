@@ -568,15 +568,15 @@ def plot_event(game, event_id, axis):
     """
     assert "event_df" in dir(game), "Game object must have an event data" + \
                                     "frame. Call game.get_events_for_game()"
-    assert event_id in game.events_df.index, "Can't find specified event" + \
-                                             "in this game's event data frame"
+    assert event_id in game.event_df.index, "Can't find specified event" + \
+                                            "in this game's event data frame"
 
-    event_type = game.events_df.loc[event_id]["event name"]
+    event_type = game.event_df.loc[event_id]["event name"]
     if event_type == "pass":
-        x1 = game.events_df.loc[event_id]["x start location"]
-        x2 = game.events_df.loc[event_id]["x end location"]
-        y1 = game.events_df.loc[event_id]["x start location"]
-        y2 = game.events_df.loc[event_id]["x end location"]
+        x1 = game.event_df.loc[event_id]["x start location"]
+        x2 = game.event_df.loc[event_id]["x end location"]
+        y1 = game.event_df.loc[event_id]["x start location"]
+        y2 = game.event_df.loc[event_id]["x end location"]
         axis.arrow(x1,
                    y1,
                    dx=x2-x1,
@@ -590,12 +590,12 @@ def plot_event(game, event_id, axis):
         if "shot_df" in dir(game):
             plot_shot_freeze_frame(game, event_id, axis)
         else:
-            axis.scatter(game.events_df.loc[event_id]["x start location"],
-                         game.events_df.loc[event_id]["y start location"],
+            axis.scatter(game.event_df.loc[event_id]["x start location"],
+                         game.event_df.loc[event_id]["y start location"],
                          marker="X", s=200)
     elif event_type == "ball receipt*":
-        axis.scatter(game.events_df.loc[event_id]["x start location"],
-                     game.events_df.loc[event_id]["y start location"],
+        axis.scatter(game.event_df.loc[event_id]["x start location"],
+                     game.event_df.loc[event_id]["y start location"],
                      marker="*", s=200)
 
     return axis
