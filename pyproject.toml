@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sbdataextraction"
-version = "0.1.5"
+version = "0.1.6"
 description = "Package to get statsbomb public data into python"
 authors = ["Rob Blumberg <robertblumberg97@gmail.com>"]
 license = "MIT"
