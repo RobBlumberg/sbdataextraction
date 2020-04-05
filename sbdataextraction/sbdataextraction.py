@@ -490,24 +490,26 @@ def draw_pitch(axis, rotate=False):
 
 def plot_shot_freeze_frame(game, shot_id, axis):
     """
-    Plots shot freeze, including player and ball locations.
+    Plots shot freeze frame in Game object shot_df
+    including player and ball locations.
 
     Arguments
     ----------
     game : Game
         - game object
     shot_id : string
-        - shot_id of shot to plot. Must be a valid index in game object's shot
-        data frame
+        - shot_id of shot to plot. Must be a valid index in game object's
+        shot data frame
     axis : matplotlib.axes._subplots.AxesSubplot
         - matplotlib axis object on which to plot shot freeze frame
 
     Returns
     -------
-    None
+    matplotlib.axes._subplots.AxesSubplot
+        - axis object on which plot was produced
     """
     assert "shot_df" in dir(game), "Game object must have a shot data" + \
-                                   "frame. Call self.get_shots_for_game()"
+                                   "frame. Call game.get_shots_for_game()"
     assert shot_id in game.shot_df.index, "Cannot find specified shot_id" + \
                                           "in this game's shot data frame"
 
@@ -541,5 +543,59 @@ def plot_shot_freeze_frame(game, shot_id, axis):
     axis.scatter(gk_x, gk_y, s=100, color='blue')
     axis.plot([x_shot, 120], [y_shot, 36], color='red', linestyle='--')
     axis.plot([x_shot, 120], [y_shot, 44], color='red', linestyle='--')
+
+    return axis
+
+
+def plot_event(game, event_id, axis):
+    """
+    Plots event in Game object event data frame.
+
+    Arguments
+    ---------
+    game : Game
+        - game object
+    eventid : string
+        - event_id of event to plot. Must be a valid index in game object's
+        event data frame
+    axis (matplotlib.axes._subplots.AxesSubplot)
+        - matplotlib axis on which to plot event
+
+    Returns:
+    --------
+    matplotlib.axes._subplots.AxesSubplot
+        - axis object on which plot was produced
+    """
+    assert "shot_df" in dir(game), "Game object must have an event data" + \
+                                   "frame. Call game.get_events_for_game()"
+    assert event_id in game.events_df.index, "Can't find specified event" + \
+                                             "in this game's event data frame"
+
+    event_type = game.events_df.loc[event_id]["event name"]
+    if event_type == "pass":
+        x1 = game.events_df.loc[event_id]["x start location"]
+        x2 = game.events_df.loc[event_id]["x end location"]
+        y1 = game.events_df.loc[event_id]["x start location"]
+        y2 = game.events_df.loc[event_id]["x end location"]
+        axis.arrow(x1,
+                   y1,
+                   dx=x2-x1,
+                   dy=y2-y1,
+                   head_width=2, head_length=2)
+    elif event_type == "carry":
+        axis.plot([x1, x2],
+                  [y1, y2],
+                  linestyle="--", color="black")
+    elif event_type == "shot":
+        if "shot_df" in dir(game):
+            plot_shot_freeze_frame(game, event_id, axis)
+        else:
+            axis.scatter(game.events_df.loc[event_id]["x start location"],
+                         game.events_df.loc[event_id]["y start location"],
+                         marker="X", s=200)
+    elif event_type == "ball receipt*":
+        axis.scatter(game.events_df.loc[event_id]["x start location"],
+                     game.events_df.loc[event_id]["y start location"],
+                     marker="*", s=200)
 
     return axis
