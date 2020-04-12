@@ -210,7 +210,8 @@ class Game:
 
                 if "related_events" in events.keys():
                     related = events["related_events"]
-                    if event_name == "pass" and "assisted_shot_id" in events["pass"].keys():
+                    is_pass = (event_name == "pass")
+                    if is_pass and "assisted_shot_id" in events["pass"].keys(): # noqa
                         related.append(events["pass"]["assisted_shot_id"])
                 else:
                     related = None
