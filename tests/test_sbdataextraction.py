@@ -76,7 +76,7 @@ def test_get_events_for_game():
     events_df = season_11_37[69153].get_events_for_game()
     assert isinstance(events_df, pd.DataFrame), \
         """get_events_for_game should return a pandas data frame"""
-    assert events_df.shape[1] == 11, \
+    assert events_df.shape[1] == 12, \
         """Events data frame returned by get_events_for_game
         should have 11 columns"""
 
