@@ -175,17 +175,19 @@ class Game:
             related to those events
         """
 
-        feature_list = ["event id", "event name", "team_id", "team_name",
-                        "player_id", "player_name", "x start location",
-                        "y start location", "x end location", "y end location",
+        feature_list = ["event id", "time", "event name", "team_id",
+                        "team_name", "player_id", "player_name",
+                        "x start location", "y start location",
+                        "x end location", "y end location",
                         "statsbomb xg", "related events"]
 
         features = []
         event_list = ["Pass", "Ball Receipt*", "Carry", "Shot"]
         for events in self.json_file:
             if events['type']['name'] in event_list:
-                event_name = events['type']['name'].lower()
                 event_id = events['id']
+                time = events['timestamp']
+                event_name = events['type']['name'].lower()
                 team_id = events['possession_team']['id']
                 team_name = events['possession_team']['name']
                 player_id = events['player']['id']
@@ -216,9 +218,10 @@ class Game:
                 else:
                     related = None
 
-                features.append([event_id, event_name, team_id, team_name,
-                                 player_id, player_name, x_start, y_start,
-                                 x_end, y_end, xg, related])
+                features.append([event_id, time, event_name, team_id,
+                                 team_name, player_id, player_name,
+                                 x_start, y_start, x_end, y_end,
+                                 xg, related])
 
         events_df = pd.DataFrame(features,
                                  columns=feature_list).set_index("event id")
