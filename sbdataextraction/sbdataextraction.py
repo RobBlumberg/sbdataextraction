@@ -290,7 +290,8 @@ def fetch_matches_for_season(competition_id, season_id, verbose=True):
             sys.stdout.write(f"[%-{len(game_nums)-1}s] %d%%"
                              % ('='*i, (100/(len(game_nums)-1))*i))
             sys.stdout.flush()
-            print("")
+    if verbose:
+        print("")
 
     return game_num_dict
 
